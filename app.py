@@ -1,18 +1,25 @@
 import os
-import signal
-from datetime import datetime
 import streamlit as st
+from streamlit.errors import StreamlitSecretNotFoundError
+from dotenv import load_dotenv
+from datetime import datetime
 
-if "APIKEY" in st.secrets:
-    os.environ["OPENAI_API_KEY"] = st.secrets["APIKEY"]
+load_dotenv()
 
-from rag_chain import rag_chain, build_context, get_sources  # from your rag_chain.py
+try:
+    if "OPENAI_API_KEY" in st.secrets:
+        os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+except StreamlitSecretNotFoundError:
+    pass
+
+# Now import rag_chain AFTER setting env
+from rag_chain import rag_chain, build_context, get_sources
 
 # ----------------------------
 # Streamlit page setup
 # ----------------------------
-st.set_page_config(page_title="BernAId", layout="wide")
-st.title("BernAId")
+st.set_page_config(page_title="GovernanceAI", layout="wide")
+st.title("GovernanceAI")
 
 # ----------------------------
 # Session state

@@ -1,3 +1,4 @@
+.streamlit
 .env
 indexer.py
 data
