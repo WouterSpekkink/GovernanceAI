@@ -20,6 +20,18 @@ from rag_chain import rag_chain, build_context, get_sources
 # ----------------------------
 st.set_page_config(page_title="GovernanceAI", layout="wide")
 st.title("GovernanceAI")
+st.markdown(
+    """
+    **GovernanceAI** is a research assistant that answers questions using a curated set of academic papers about different forms of governance.
+    It retrieves relevant passages from the literature and generates answers *grounded in those sources*.
+
+    Below the answers that the chatbot gives, you'll find the passages from the literature that the answers are based on.
+
+    Use it to explore the literature for week 3 and to develop ideas on what perspective you could apply (and in what way) in your assignment.
+
+    The research assistant is 'aware' that you are gathering knowledge in preparation for an assignment where you apply your knowledge to a concrete case.
+    """
+)
 
 # ----------------------------
 # Session state
