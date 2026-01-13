@@ -2,3 +2,4 @@
 .env
 indexer.py
 data
+__pycache__
