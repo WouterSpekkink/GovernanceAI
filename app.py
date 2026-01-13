@@ -15,6 +15,29 @@ except StreamlitSecretNotFoundError:
 # Now import rag_chain AFTER setting env
 from rag_chain import rag_chain, build_context, get_sources
 
+# Prepare text export option
+def chat_as_text(messages):
+    lines = []
+    for m in messages:
+        role = m.get("role", "").upper()
+
+        lines.append(f"{role}\n{'-' * len(role)}")
+        lines.append(m.get("content", ""))
+
+        # Include sources if present (assistant messages)
+        if m.get("sources"):
+            lines.append("\nSources:")
+            for s in m["sources"]:
+                fname = s.get("filename", "unknown")
+                preview = s.get("content", "").replace("\n", " ")
+                if len(preview) > 800:
+                    preview = preview[:800] + "…"
+                lines.append(f"- {fname}: {preview}")
+
+        lines.append("\n")
+
+    return "\n".join(lines).strip() + "\n"
+
 # ----------------------------
 # Streamlit page setup
 # ----------------------------
@@ -50,7 +73,16 @@ with st.sidebar:
     if st.button("Clear chat"):
         st.session_state.messages = []
         st.rerun()
-        
+
+    st.markdown("### Export")
+    st.download_button(
+        label="Download conversation (TXT)",
+        data=chat_as_text(st.session_state.messages),
+        file_name=f"bernaid_chat_{st.session_state.session_started_at}.txt",
+        mime="text/plain",
+        disabled=(len(st.session_state.messages) == 0),
+    )
+       
 # ----------------------------
 # Render chat history
 # ----------------------------
