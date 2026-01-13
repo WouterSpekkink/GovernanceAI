@@ -75,14 +75,11 @@ with st.sidebar:
         st.rerun()
 
     st.markdown("### Export")
-    has_messages = bool(st.session_state.get("messages"))
-
     st.download_button(
         label="Download conversation (TXT)",
         data=chat_as_text(st.session_state.get("messages", [])),
-        file_name=f"bernaid_chat_{st.session_state.session_started_at}.txt",
+        file_name=f"governanceai_chat_{st.session_state.session_started_at}.txt",
         mime="text/plain",
-        disabled=not has_messages,
         )
 
 # ----------------------------
